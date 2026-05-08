@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_04_28_005403) do
+ActiveRecord::Schema[8.1].define(version: 2026_05_08_052841) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.bigint "blob_id", null: false
     t.datetime "created_at", null: false
@@ -42,6 +42,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_28_005403) do
   create_table "microposts", force: :cascade do |t|
     t.text "content"
     t.datetime "created_at", null: false
+    t.float "spam_score"
+    t.string "status", default: "safe"
     t.datetime "updated_at", null: false
     t.integer "user_id", null: false
     t.index ["user_id", "created_at"], name: "index_microposts_on_user_id_and_created_at"
