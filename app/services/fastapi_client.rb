@@ -1,3 +1,4 @@
+require "net/http"
 class FastapiClient
   BASE_URL = "http://127.0.0.1:8000"
   def self.request(path, payload)

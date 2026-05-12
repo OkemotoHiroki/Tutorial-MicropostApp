@@ -1,4 +1,6 @@
+<%= turbo_stream_from "microposts" %>
 <% if @feed_items.any? %>
+
   <ol class="microposts">
     <%= render @feed_items %>
   </ol>

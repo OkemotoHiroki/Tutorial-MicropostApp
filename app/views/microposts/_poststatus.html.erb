@@ -1,0 +1,31 @@
+<div id="status-<%= micropost.id %>">
+    <% if micropost.spam_done?%>
+        <div class="<%= micropost_status_class(micropost.status) %>">
+            <%= micropost_status_label(micropost.status) %>
+            <% if micropost.spam_score.present? %>
+                (スパム度：<%= spam_score_percentage(micropost.spam_score) %> %)
+            <% end %>
+        </div>
+    <% elsif micropost.processing? %>
+        <div class="d-flex align-items-center gap-2">
+            <div class="spinner-border spinner-border-sm text-primary"></div>
+            <span>スパム判定中...</span>
+        </div>    
+    <% end %>
+    <% if micropost.angry_done? %>
+        <div>
+        <% if micropost.is_angry %>
+            <div class="text-warning">⚠️至急対応</div>
+            <div>理由：<%= micropost.reason%></div>
+        <% else %>
+            <div class="text-success">✅怒っていません</div>
+            <div>理由：<%= micropost.reason%></div>
+        <% end %>
+        </div>
+    <% elsif micropost.processing? %>
+        <div class="d-flex align-items-center gap-2">
+            <div class="spinner-border spinner-border-sm text-primary"></div>
+            <span>怒り判定中...</span>
+        </div>    
+    <% end %>
+</div>
