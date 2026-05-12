@@ -1,8 +1,8 @@
 module MicropostsHelper
   # ポストの表示可否
   def visible_to_user?(post, current_user)
-    return true if current_user.admin?
-    return true if post.user_id == current_user.id
+    return true if current_user&.admin?
+    return true if current_user && post.user_id == current_user.id
     post.status != "danger"
   end
 

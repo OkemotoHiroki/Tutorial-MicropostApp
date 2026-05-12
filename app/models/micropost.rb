@@ -14,11 +14,11 @@ class Micropost < ApplicationRecord
   validate :picture_size
 
 
-  def spam_done?
+  def spam_scored?
     spam_score.present?
   end
 
-  def angry_done?
+  def angry_scored?
     angry_score.present?
   end
 
@@ -26,7 +26,7 @@ class Micropost < ApplicationRecord
 
   def picture_size
     if picture.attached? && picture.byte_size > 5.megabytes
-      errors.add(:picture, "should be less than 5MB")
+      errors.add(:picture, :too_large, message: "5MB以下にしてください")
     end
   end
 end

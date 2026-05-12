@@ -73,4 +73,47 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     get followers_user_path(@user)
     assert_redirected_to login_url
   end
+
+  test "create with valid params sends activation email and redirects to root" do
+    ActionMailer::Base.deliveries.clear
+    assert_difference "User.count", 1 do
+      post users_path, params: { user: { name: "New User",
+                                         email: "newuser@example.com",
+                                         password: "password",
+                                         password_confirmation: "password" } }
+    end
+    assert_equal 1, ActionMailer::Base.deliveries.size
+    assert_not flash.empty?
+    assert_redirected_to root_url
+  end
+
+  test "create with invalid params does not create user" do
+    assert_no_difference "User.count" do
+      post users_path, params: { user: { name: "",
+                                         email: "invalid",
+                                         password: "foo",
+                                         password_confirmation: "bar" } }
+    end
+    assert_response :unprocessable_entity
+  end
+
+  test "destroy as admin deletes user and redirects to users_url" do
+    log_in_as(@user)  # michael is admin
+    assert_difference "User.count", -1 do
+      delete user_path(@other_user)
+    end
+    assert_not flash.empty?
+    assert_redirected_to users_url
+  end
+
+  test "update with valid params updates user and redirects" do
+    log_in_as(@user)
+    patch user_path(@user), params: { user: { name: "Updated Name",
+                                              email: "updated@example.com",
+                                              password: "",
+                                              password_confirmation: "" } }
+    assert_not flash.empty?
+    assert_redirected_to @user
+    assert_equal "Updated Name", @user.reload.name
+  end
 end

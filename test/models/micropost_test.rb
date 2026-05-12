@@ -28,4 +28,31 @@ class MicropostTest < ActiveSupport::TestCase
   test "order should be most recent first" do
     assert_equal microposts(:most_recent), Micropost.first
   end
+
+  test "spam_scored? returns false when spam_score is nil" do
+    assert_not @micropost.spam_scored?
+  end
+
+  test "spam_scored? returns true when spam_score is present" do
+    @micropost.spam_score = 0.9
+    assert @micropost.spam_scored?
+  end
+
+  test "angry_scored? returns false when angry_score is nil" do
+    assert_not @micropost.angry_scored?
+  end
+
+  test "angry_scored? returns true when angry_score is present" do
+    @micropost.angry_score = 0.8
+    assert @micropost.angry_scored?
+  end
+
+  test "processing_state defaults to pending" do
+    @micropost.save!
+    assert @micropost.pending?
+  end
+
+  test "picture is not required" do
+    assert @micropost.valid?
+  end
 end

@@ -26,4 +26,31 @@ class MicropostsControllerTest < ActionDispatch::IntegrationTest
     end
     assert_redirected_to root_url
   end
+
+  test "create with valid params creates micropost and redirects" do
+    log_in_as(users(:michael))
+    assert_difference "Micropost.count", 1 do
+      post microposts_path, params: { micropost: { content: "Valid content" } }
+    end
+    assert_not flash.empty?
+    assert_redirected_to root_url
+  end
+
+  test "create with invalid params renders home with error" do
+    log_in_as(users(:michael))
+    assert_no_difference "Micropost.count" do
+      post microposts_path, params: { micropost: { content: "" } }
+    end
+    assert_response :unprocessable_entity
+  end
+
+  test "destroy own micropost deletes it and redirects" do
+    log_in_as(users(:michael))
+    micropost = microposts(:orange)
+    assert_difference "Micropost.count", -1 do
+      delete micropost_path(micropost)
+    end
+    assert_not flash.empty?
+    assert_response :redirect
+  end
 end

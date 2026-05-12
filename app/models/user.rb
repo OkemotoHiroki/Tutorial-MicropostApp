@@ -11,6 +11,8 @@ class User < ApplicationRecord
   has_many :following, through: :active_relationships, source: :followed
   has_many :followers, through: :passive_relationships, source: :follower
 
+  scope :activated, -> { where(activated: true) }
+
   before_save :downcase_email
   before_create :create_activation_digest
 
@@ -69,10 +71,7 @@ class User < ApplicationRecord
   end
 
   def feed
-    following_ids = "SELECT followed_id FROM relationships
-                     WHERE follower_id = :user_id"
-    Micropost.where("user_id IN (#{following_ids})
-                     OR user_id = :user_id", user_id: id)
+    Micropost.where(user_id: following_ids + [id])
   end
 
   # ユーザーをフォローする
@@ -82,7 +81,7 @@ class User < ApplicationRecord
 
   # ユーザーをフォロー解除する
   def unfollow(other_user)
-    active_relationships.find_by(followed_id: other_user.id).destroy
+    following.delete(other_user)
   end
 
   # 現在のユーザーがフォローしてたらtrueを返す
