@@ -71,7 +71,7 @@ class User < ApplicationRecord
   end
 
   def feed
-    Micropost.where(user_id: following_ids + [id])
+    Micropost.where(user_id: following_ids + [ id ])
   end
 
   # ユーザーをフォローする
