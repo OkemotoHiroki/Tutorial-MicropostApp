@@ -1,5 +1,5 @@
 <div id="status-<%= micropost.id %>">
-    <% if micropost.spam_done?%>
+    <% if micropost.spam_scored?%>
         <div class="<%= micropost_status_class(micropost.status) %>">
             <%= micropost_status_label(micropost.status) %>
             <% if micropost.spam_score.present? %>
@@ -12,7 +12,7 @@
             <span>スパム判定中...</span>
         </div>    
     <% end %>
-    <% if micropost.angry_done? %>
+    <% if micropost.angry_scored? %>
         <div>
         <% if micropost.is_angry %>
             <div class="text-warning">⚠️至急対応</div>

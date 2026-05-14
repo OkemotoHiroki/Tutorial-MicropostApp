@@ -81,4 +81,46 @@ class UserTest < ActiveSupport::TestCase
       assert_not michael.feed.include?(post_unfollowed)
     end
   end
+
+  test "email validation should reject invalid addresses" do
+    invalid_addresses = %w[user@example,com user_at_foo.org user.name@example.
+                           foo@bar_baz.com foo@bar+baz.com]
+    invalid_addresses.each do |invalid_address|
+      @user.email = invalid_address
+      assert_not @user.valid?, "#{invalid_address.inspect} should be invalid"
+    end
+  end
+
+  test "email addresses should be saved as lower-case" do
+    mixed_case_email = "Foo@ExAMple.CoM"
+    @user.email = mixed_case_email
+    @user.save
+    assert_equal mixed_case_email.downcase, @user.reload.email
+  end
+
+  test "activated scope returns only activated users" do
+    activated_count = User.where(activated: true).count
+    assert_equal activated_count, User.activated.count
+    assert_not User.activated.include?(users(:unactivated_user))
+  end
+
+  test "password_reset_expired? returns true when reset sent more than 2 hours ago" do
+    @user.save
+    @user.create_reset_digest
+    @user.update_attribute(:reset_sent_at, 3.hours.ago)
+    assert @user.password_reset_expired?
+  end
+
+  test "password_reset_expired? returns false when reset sent less than 2 hours ago" do
+    @user.save
+    @user.create_reset_digest
+    @user.update_attribute(:reset_sent_at, 1.hour.ago)
+    assert_not @user.password_reset_expired?
+  end
+
+  test "authenticated? should return false for a user with wrong token" do
+    @user.save
+    @user.create_reset_digest
+    assert_not @user.authenticated?(:reset, "wrong_token")
+  end
 end
