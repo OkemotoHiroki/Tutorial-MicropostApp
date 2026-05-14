@@ -105,7 +105,7 @@ ja:
         one: "%{count}件の入力エラーがあります。"
         other: "%{count}件の入力エラーがあります。"
   footer:
-    credit_html: "<a href=\"https://railstutorial.jp/\">Ruby on Rails チュートリアル</a> by <a href=\"http://www.michaelhartl.com/\">Michael Hartl</a>"
+    credit_html: "<a href=\"https://railstutorial.jp/\">Ruby on Rails チュートリアル</a> 著者: <a href=\"http://www.michaelhartl.com/\">Michael Hartl</a>"
   user_mailer:
     account_activation:
       subject: "アカウント有効化"
