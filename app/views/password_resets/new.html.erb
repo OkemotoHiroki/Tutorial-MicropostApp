@@ -1,5 +1,5 @@
-<% provide(:title, "Forgot password") %>
-<h1>Forgot password</h1>
+<% provide(:title, t("password_resets.new.title")) %>
+<h1><%= t("password_resets.new.title") %></h1>
 
 <div class="row justify-content-center">
     <div class="col-md-6">
@@ -11,7 +11,7 @@
         </div>
 
         <div class="d-grid">
-            <%= f.submit "Submit", class: "btn btn-primary" %>
+            <%= f.submit t("password_resets.new.submit"), class: "btn btn-primary" %>
         </div>
 
     <% end %>

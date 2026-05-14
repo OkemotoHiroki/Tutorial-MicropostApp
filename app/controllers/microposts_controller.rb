@@ -4,7 +4,7 @@ class MicropostsController < ApplicationController
   def create
     @micropost = current_user.microposts.build(micropost_params)
     if @micropost.save
-      flash[:success] = "Micropost created!"
+      flash[:success] = t("flash.microposts.create_success")
       ModerationJob.perform_later(@micropost.id)
 
       redirect_to root_url
@@ -15,7 +15,7 @@ class MicropostsController < ApplicationController
   end
   def destroy
     @micropost.destroy
-    flash[:success] = "Micropost deleted"
+    flash[:success] = t("flash.microposts.destroy_success")
     redirect_back(fallback_location: root_url)
   end
 

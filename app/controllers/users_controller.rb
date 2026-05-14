@@ -12,7 +12,7 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
     if @user.save
       @user.send_activation_email
-      flash[:info] = "Please check your email to activate your account."
+      flash[:info] = t("flash.users.create_success")
       redirect_to root_url
     else
       render :new, status: :unprocessable_entity
@@ -28,7 +28,7 @@ class UsersController < ApplicationController
 
   def update
     if @user.update(user_params)
-      flash[:success] = "Profile updated"
+      flash[:success] = t("flash.users.update_success")
       redirect_to @user
     else
       render :edit, status: :unprocessable_entity
@@ -41,18 +41,18 @@ class UsersController < ApplicationController
 
   def destroy
     @user.destroy
-    flash[:success] = "User deleted"
+    flash[:success] = t("flash.users.destroy_success")
     redirect_to users_url
   end
 
   def following
-    @title = "Following"
+    @title = t("users.relationships.following")
     @users = @user.following.paginate(page: params[:page])
     render "show_follow"
   end
 
   def followers
-    @title = "Followers"
+    @title = t("users.relationships.followers")
     @users = @user.followers.paginate(page: params[:page])
     render "show_follow"
   end

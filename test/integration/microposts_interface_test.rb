@@ -9,15 +9,15 @@ class MicropostsInterfaceTest < ActionDispatch::IntegrationTest
   test "micropost sidebar count" do
     log_in_as(@user)
     get root_path
-    assert_match "#{@user.microposts.count} microposts", response.body
+    assert_match I18n.t("microposts.count", count: @user.microposts.count), response.body
     # まだマイクロポストを投稿していないユーザー
     other_user = users(:malory)
     log_in_as(other_user)
     get root_path
-    assert_match "0 microposts", response.body
+    assert_match I18n.t("microposts.count", count: 0), response.body
     other_user.microposts.create!(content: "A micropost")
     get root_path
-    assert_match "1 micropost", response.body
+    assert_match I18n.t("microposts.count", count: 1), response.body
   end
 
   test "micropost interface" do
@@ -42,13 +42,13 @@ class MicropostsInterfaceTest < ActionDispatch::IntegrationTest
     follow_redirect!
     assert_match content, response.body
     # 投稿を削除する
-    assert_select "a", "delete"
+    assert_select "a", I18n.t("helpers.links.delete")
     first_micropost = @user.microposts.paginate(page: 1).first
     assert_difference "Micropost.count", -1 do
       delete micropost_path(first_micropost)
     end
     # 違うユーザーのプロフィールにアクセスする
     get user_path(users(:archer))
-    assert_select "a", { text: "delete", count: 0 }
+    assert_select "a", { text: I18n.t("helpers.links.delete"), count: 0 }
   end
 end

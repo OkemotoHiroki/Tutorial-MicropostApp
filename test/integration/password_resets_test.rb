@@ -9,12 +9,12 @@ class PasswordResetsTest < ActionDispatch::IntegrationTest
   test "password resets" do
     get new_password_reset_path
     assert_response :success
-    assert_select "h1", "Forgot password"
+    assert_select "h1", I18n.t("password_resets.new.title")
     # メールアドレスが無効
     post password_resets_path, params: { password_reset: { email: "" } }
     assert_not flash.empty?
     assert_response :unprocessable_entity
-    assert_select "h1", "Forgot password"
+    assert_select "h1", I18n.t("password_resets.new.title")
     # メールアドレスが有効
     post password_resets_path,
          params: { password_reset: { email: @user.email } }
@@ -25,7 +25,7 @@ class PasswordResetsTest < ActionDispatch::IntegrationTest
     # パスワード再設定フォームのテスト
     user = User.find_by(email: @user.email)
     mail = ActionMailer::Base.deliveries.last
-    user.reset_token = mail.body.encoded.match(/\/password_resets\/(.+?)\/edit/)[1]
+    user.reset_token = mail.text_part.body.decoded.match(/\/password_resets\/(.+?)\/edit/)[1]
 
     # メールアドレスが無効
     get edit_password_reset_path(user.reset_token, email: "")
@@ -72,15 +72,15 @@ class PasswordResetsTest < ActionDispatch::IntegrationTest
          params: { password_reset: { email: @user.email } }
 
     mail = ActionMailer::Base.deliveries.last
-    reset_token = mail.body.encoded.match(/\/password_resets\/(.+?)\/edit/)[1]
+  reset_token = mail.text_part.body.decoded.match(/\/password_resets\/(.+?)\/edit/)[1]
     @user = User.find_by(email: @user.email)
-    @user.update_attribute(:reset_sent_at, 3.hours.ago)
+    @user.update_column(:reset_sent_at, 3.hours.ago)
     patch password_reset_path(reset_token),
           params: { email: @user.email,
                     user: { password:              "foobar",
                             password_confirmation: "foobar" } }
     assert_response :redirect
     follow_redirect!
-    assert_match /expired/i, response.body
+    assert_match I18n.t("flash.password_resets.expired"), response.body
   end
 end

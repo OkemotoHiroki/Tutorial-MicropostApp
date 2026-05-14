@@ -1,6 +1,4 @@
 class SessionsController < ApplicationController
-  protect_from_forgery with: :exception
-
   def new
   end
 
@@ -12,11 +10,11 @@ class SessionsController < ApplicationController
         params[:session][:remember_me] == "1" ? remember(user) : forget(user)
         redirect_back_or user
       else
-        flash[:warning] = "Account not activated. Check your email for the activation link."
+        flash[:warning] = t("flash.sessions.not_activated")
         redirect_to root_url
       end
     else
-      flash.now[:danger] = "Invalid email/password combination"
+      flash.now[:danger] = t("flash.sessions.invalid_credentials")
       render :new, status: :unprocessable_entity
     end
   end

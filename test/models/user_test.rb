@@ -107,14 +107,14 @@ class UserTest < ActiveSupport::TestCase
   test "password_reset_expired? returns true when reset sent more than 2 hours ago" do
     @user.save
     @user.create_reset_digest
-    @user.update_attribute(:reset_sent_at, 3.hours.ago)
+    @user.update_column(:reset_sent_at, 3.hours.ago)
     assert @user.password_reset_expired?
   end
 
   test "password_reset_expired? returns false when reset sent less than 2 hours ago" do
     @user.save
     @user.create_reset_digest
-    @user.update_attribute(:reset_sent_at, 1.hour.ago)
+    @user.update_column(:reset_sent_at, 1.hour.ago)
     assert_not @user.password_reset_expired?
   end
 

@@ -1,0 +1,185 @@
+ja:
+  app:
+    base_title: "Railsチュートリアル サンプルアプリ"
+    name: "サンプルアプリ"
+    description: "サンプルアプリ。"
+  flash:
+    login_required: "ログインしてください。"
+    users:
+      create_success: "アカウント有効化用のメールを送信しました。メールをご確認ください。"
+      update_success: "プロフィールを更新しました。"
+      destroy_success: "ユーザーを削除しました。"
+    sessions:
+      not_activated: "アカウントが有効化されていません。メールの有効化リンクをご確認ください。"
+      invalid_credentials: "メールアドレスまたはパスワードが正しくありません。"
+    password_resets:
+      create_success: "パスワード再設定用のメールを送信しました。"
+      email_not_found: "メールアドレスが見つかりません。"
+      update_success: "パスワードを再設定しました。"
+      expired: "パスワード再設定リンクの有効期限が切れています。"
+    account_activations:
+      success: "アカウントを有効化しました。"
+      invalid: "無効な有効化リンクです。"
+    microposts:
+      create_success: "マイクロポストを投稿しました。"
+      destroy_success: "マイクロポストを削除しました。"
+  helpers:
+    links:
+      delete: "削除"
+      view_profile: "プロフィールを見る"
+      forgot_password: "パスワードをお忘れですか？"
+      signup_now: "今すぐ登録"
+      change: "変更"
+      news: "ニュース"
+    confirms:
+      delete: "本当によろしいですか？"
+  navigation:
+    brand: "マイクロポストアプリ"
+    home: "ホーム"
+    help: "ヘルプ"
+    users: "ユーザー"
+    account: "アカウント"
+    profile: "プロフィール"
+    settings: "設定"
+    log_in: "ログイン"
+    log_out: "ログアウト"
+  static_pages:
+    about:
+      title: "このアプリについて"
+      body_html: "<a href=\"https://railstutorial.jp/\">Ruby on Rails チュートリアル</a> は、<a href=\"https://railstutorial.jp/#ebook\">書籍</a> と <a href=\"https://railstutorial.jp/#screencast\">スクリーンキャスト</a> を通じて、<a href=\"http://rubyonrails.org/\">Ruby on Rails</a> による Web 開発を学ぶための教材です。このアプリは、そのチュートリアル用サンプルアプリケーションです。"
+    contact:
+      title: "お問い合わせ"
+      body_html: "サンプルアプリに関するお問い合わせは、<a href=\"https://railstutorial.jp/contact\">Ruby on Rails チュートリアルのお問い合わせページ</a>をご覧ください。"
+    help:
+      title: "ヘルプ"
+      body_html: "<a href=\"https://railstutorial.jp/help\">Ruby on Rails チュートリアルのヘルプページ</a>をご覧ください。サンプルアプリについては、<a href=\"https://railstutorial.jp/#ebook\"><em>Ruby on Rails チュートリアル</em></a> を参照してください。"
+    home:
+      welcome_title: "サンプルアプリへようこそ"
+      welcome_body_html: "このページは <a href=\"https://railstutorial.jp/\">Ruby on Rails チュートリアル</a> のサンプルアプリのホームです。"
+      signup_cta: "今すぐ登録"
+      rails_logo_alt: "Rails ロゴ"
+      feed_title: "マイクロポストフィード"
+  users:
+    index:
+      title: "ユーザー一覧"
+    new:
+      title: "新規登録"
+      submit: "アカウントを作成"
+    edit:
+      title: "ユーザー編集"
+      heading: "プロフィールを更新"
+      submit: "変更を保存"
+    show:
+      microposts_heading: "マイクロポスト（%{count}件）"
+    relationships:
+      following: "フォロー中"
+      followers: "フォロワー"
+      follow: "フォローする"
+      unfollow: "フォロー解除"
+  sessions:
+    new:
+      title: "ログイン"
+      submit: "ログイン"
+      remember_me: "ログイン状態を保持する"
+      new_user: "はじめて利用しますか？"
+  password_resets:
+    new:
+      title: "パスワードをお忘れの場合"
+      submit: "送信する"
+    edit:
+      title: "パスワード再設定"
+      submit: "パスワードを更新"
+  microposts:
+    count:
+      one: "%{count}件のマイクロポスト"
+      other: "%{count}件のマイクロポスト"
+    form:
+      placeholder: "新しいマイクロポストを入力してください..."
+      submit: "投稿する"
+      file_size_error: "ファイルサイズは5MB以下にしてください。"
+    item:
+      posted_ago: "%{time}前に投稿"
+  shared:
+    error_messages:
+      header:
+        one: "%{count}件の入力エラーがあります。"
+        other: "%{count}件の入力エラーがあります。"
+  footer:
+    credit_html: "<a href=\"https://railstutorial.jp/\">Ruby on Rails チュートリアル</a> by <a href=\"http://www.michaelhartl.com/\">Michael Hartl</a>"
+  user_mailer:
+    account_activation:
+      subject: "アカウント有効化"
+      greeting: "%{name} さん"
+      instruction_html: "サンプルアプリへようこそ。以下のリンクをクリックしてアカウントを有効化してください。"
+      instruction_text: "サンプルアプリへようこそ。以下のリンクからアカウントを有効化してください。"
+      action: "アカウントを有効化する"
+    password_reset:
+      subject: "パスワード再設定"
+      heading: "パスワード再設定"
+      instruction_html: "以下のリンクをクリックしてパスワードを再設定してください。"
+      instruction_text: "以下のリンクからパスワードを再設定してください。"
+      action: "パスワードを再設定する"
+      expiration: "このリンクの有効期限は2時間です。"
+      ignore_html: "このメールに心当たりがない場合は、そのまま破棄してください。パスワードは変更されません。"
+      ignore_text: "このメールに心当たりがない場合は、そのまま破棄してください。パスワードは変更されません。"
+  activerecord:
+    models:
+      user: "ユーザー"
+      micropost: "マイクロポスト"
+    attributes:
+      user:
+        name: "名前"
+        email: "メールアドレス"
+        password: "パスワード"
+        password_confirmation: "パスワード確認"
+      micropost:
+        content: "内容"
+        picture: "画像"
+  errors:
+    format: "%{attribute}%{message}"
+    messages:
+      blank: "を入力してください"
+      invalid: "の形式が正しくありません"
+      taken: "はすでに使用されています"
+      too_long: "は%{count}文字以内で入力してください"
+      too_short: "は%{count}文字以上で入力してください"
+      confirmation: "と入力内容が一致しません"
+  datetime:
+    distance_in_words:
+      half_a_minute: "30秒"
+      less_than_x_seconds:
+        one: "1秒未満"
+        other: "%{count}秒未満"
+      x_seconds:
+        one: "1秒"
+        other: "%{count}秒"
+      less_than_x_minutes:
+        one: "1分未満"
+        other: "%{count}分未満"
+      x_minutes:
+        one: "1分"
+        other: "%{count}分"
+      about_x_hours:
+        one: "約1時間"
+        other: "約%{count}時間"
+      x_days:
+        one: "1日"
+        other: "%{count}日"
+      about_x_months:
+        one: "約1か月"
+        other: "約%{count}か月"
+      x_months:
+        one: "1か月"
+        other: "%{count}か月"
+      about_x_years:
+        one: "約1年"
+        other: "約%{count}年"
+      over_x_years:
+        one: "1年以上"
+        other: "%{count}年以上"
+      almost_x_years:
+        one: "1年弱"
+        other: "%{count}年弱"
+  will_paginate:
+    previous_label: "前へ"
+    next_label: "次へ"

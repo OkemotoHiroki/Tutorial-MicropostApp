@@ -31,7 +31,7 @@ class UsersSignupTest < ActionDispatch::IntegrationTest
     user = User.find_by(email: "user@example.com")
 
     mail = ActionMailer::Base.deliveries.last
-    token = mail.body.encoded.match(/\/account_activations\/(.+?)\/edit/)[1]
+  token = mail.text_part.body.decoded.match(/\/account_activations\/(.+?)\/edit/)[1]
 
     # トークン不正
     get edit_account_activation_path("invalid token", email: user.email)

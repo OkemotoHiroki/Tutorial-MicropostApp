@@ -24,5 +24,8 @@ module SampleApp
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
     config.action_view.embed_authenticity_token_in_remote_forms = true
+    config.i18n.available_locales = %i[en ja]
+    config.i18n.default_locale = :ja
+    config.i18n.fallbacks = [ :en ]
   end
 end

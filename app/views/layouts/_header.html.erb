@@ -1,7 +1,7 @@
 <header class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
   <div class="container">
 
-    <%= link_to "MICROPOST APP", root_path, class: "navbar-brand" %>
+    <%= link_to t("navigation.brand"), root_path, class: "navbar-brand" %>
 
     <!-- ハンバーガーボタン -->
     <button class="navbar-toggler" type="button"
@@ -16,17 +16,17 @@
       <ul class="navbar-nav ms-auto">
 
         <li class="nav-item">
-          <%= link_to "Home", root_path, class: "nav-link" %>
+          <%= link_to t("navigation.home"), root_path, class: "nav-link" %>
         </li>
 
         <li class="nav-item">
-          <%= link_to "Help", help_path, class: "nav-link" %>
+          <%= link_to t("navigation.help"), help_path, class: "nav-link" %>
         </li>
 
         <% if logged_in? %>
 
           <li class="nav-item">
-            <%= link_to "Users", users_path, class: "nav-link" %>
+            <%= link_to t("navigation.users"), users_path, class: "nav-link" %>
           </li>
 
           <li class="nav-item dropdown">
@@ -34,23 +34,23 @@
                href="#"
                role="button"
                data-bs-toggle="dropdown">
-              Account
+              <%= t("navigation.account") %>
             </a>
 
             <ul class="dropdown-menu dropdown-menu-end">
 
               <li>
-                <%= link_to "Profile", current_user, class: "dropdown-item" %>
+                <%= link_to t("navigation.profile"), current_user, class: "dropdown-item" %>
               </li>
 
               <li>
-                <%= link_to "Settings", edit_user_path(current_user), class: "dropdown-item" %>
+                <%= link_to t("navigation.settings"), edit_user_path(current_user), class: "dropdown-item" %>
               </li>
 
               <li><hr class="dropdown-divider"></li>
 
               <li>
-                <%= link_to "Log out", logout_path,
+                <%= link_to t("navigation.log_out"), logout_path,
                   data: { turbo_method: :delete },
                   class: "dropdown-item" %>
               </li>
@@ -61,7 +61,7 @@
         <% else %>
 
           <li class="nav-item">
-            <%= link_to "Log in", login_path, class: "nav-link" %>
+            <%= link_to t("navigation.log_in"), login_path, class: "nav-link" %>
           </li>
 
         <% end %>

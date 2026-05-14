@@ -1,15 +1,11 @@
   <div class="text-center p-5 mb-4 bg-light rounded-3">
-    <h1>Welcome to the Sample App</h1>
+    <h1><%= t("static_pages.home.welcome_title") %></h1>
 
-    <h2>
-      This is the home page for the
-      <a href="https://railstutorial.jp/">Ruby on Rails Tutorial</a>
-      sample application.
-    </h2>
+    <h2><%= t("static_pages.home.welcome_body_html") %></h2>
 
-    <%= link_to "Sign up now!", signup_path, class: "btn btn-lg btn-primary" %>
+    <%= link_to t("static_pages.home.signup_cta"), signup_path, class: "btn btn-lg btn-primary" %>
   </div>
 
-  <%= link_to image_tag("rails.png", alt: "Rails logo"),
+  <%= link_to image_tag("rails.png", alt: t("static_pages.home.rails_logo_alt")),
               'http://rubyonrails.org/' %>
   <%#= image_tag "kitten.jpg", alt: "Kitten image" %>
