@@ -10,7 +10,8 @@ class AccountActivationsControllerTest < ActionDispatch::IntegrationTest
                                        password_confirmation: "password" } }
     @user = User.find_by(email: "activate_test@example.com")
     mail = ActionMailer::Base.deliveries.last
-    @token = mail.body.encoded.match(/\/account_activations\/(.+?)\/edit/)[1]
+    body = mail.text_part&.decoded || mail.body.decoded
+    @token = body.match(%r{/account_activations/(.+?)/edit})[1]
   end
 
   test "edit with valid token activates user and logs in" do
