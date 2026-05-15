@@ -23,7 +23,9 @@ class MicropostsInterfaceTest < ActionDispatch::IntegrationTest
   test "micropost interface" do
     log_in_as(@user)
     get root_path
-    assert_select "div.pagination"
+    assert_select "ul.pagination"
+    assert_select "li.page-item"
+    assert_select "a.page-link"
     assert_select "input[type=file]"
     # 無効な送信
     post microposts_path, params: { micropost: { content: "" } }

@@ -13,7 +13,9 @@ class UsersIndexTest < ActionDispatch::IntegrationTest
   assert_response :success
     assert_select "h1", I18n.t("users.index.title")
 
-    assert_select "div.pagination"
+    assert_select "ul.pagination"
+    assert_select "li.page-item"
+    assert_select "a.page-link"
     first_page_of_users = User.where(activated: true).paginate(page: 1)
     first_page_of_users.each do |user|
       assert_select "a[href=?]", user_path(user), text: user.name
