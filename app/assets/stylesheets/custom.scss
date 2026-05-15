@@ -223,7 +223,8 @@ textarea, select, .uneditable-input {
 }
 
 .pagination {
-  @extend .pagination;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
 }
 
 /* microposts */
