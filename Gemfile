@@ -78,4 +78,4 @@ gem "bcrypt"
 gem "faker"
 
 gem "will_paginate"
-gem "will_paginate-bootstrap5"
+gem "will_paginate-bootstrap5", require: "will_paginate-bootstrap4"
