@@ -33,6 +33,26 @@ ja:
       news: "ニュース"
     confirms:
       delete: "本当によろしいですか？"
+    placeholder:
+      user:
+        name: "山田 太郎"
+        email: "you@example.com"
+        password: "半角英数字6文字以上"
+        password_confirmation: "確認のため再入力"
+      session:
+        email: "登録したメールアドレス"
+        password: "パスワード"
+      password_reset:
+        email: "登録したメールアドレス"
+    hint:
+      user:
+        name: "50文字以内"
+        email: "メールアドレスの形式で入力"
+        password: "6文字以上"
+        password_confirmation: "パスワードと同じ値を入力"
+      micropost:
+        content: "140文字以内"
+        picture: "JPEG・GIF・PNG形式 / 5MBまで"
   navigation:
     brand: "マイクロポストアプリ"
     home: "ホーム"
@@ -183,3 +203,23 @@ ja:
   will_paginate:
     previous_label: "前へ"
     next_label: "次へ"
+  help:
+    button_label: "ヘルプ"
+    modal_title: "操作説明"
+    close: "閉じる"
+    titles:
+      static_pages_home: "ホーム画面の使い方"
+      static_pages_help: "ヘルプページについて"
+      static_pages_about: "このアプリについて"
+      static_pages_contact: "お問い合わせについて"
+      users_new: "新規登録の使い方"
+      users_index: "ユーザー一覧の使い方"
+      users_show: "プロフィール画面の使い方"
+      users_edit: "プロフィール編集の使い方"
+      users_following: "フォロー中一覧について"
+      users_followers: "フォロワー一覧について"
+      sessions_new: "ログインの使い方"
+      account_activations_edit: "アカウント有効化について"
+      password_resets_new: "パスワード再設定の申請"
+      password_resets_edit: "パスワードの再設定"
+      default: "操作説明"

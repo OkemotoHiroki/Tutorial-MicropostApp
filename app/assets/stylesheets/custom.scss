@@ -97,6 +97,32 @@ footer {
   }
 }
 
+/* help floating button */
+
+.help-fab {
+  position: fixed;
+  top: 80px;
+  right: 20px;
+  z-index: 1035;
+  width: 56px;
+  height: 56px;
+  padding: 0;
+  font-size: 1.6em;
+  font-weight: bold;
+  line-height: 1;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+@media (max-width: 576px) {
+  .help-fab {
+    top: 66px;
+    right: 12px;
+    width: 48px;
+    height: 48px;
+    font-size: 1.3em;
+  }
+}
+
 /* miscellaneous */
 
 .debug_dump {
