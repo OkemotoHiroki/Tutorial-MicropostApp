@@ -807,13 +807,15 @@ stateDiagram-v2
 | `/users` | POST | `user[name]`, `user[email]`, `user[password]`, `user[password_confirmation]` | 不要 | 302 → `/`（有効化メール送信） | 422 相当：`new` 再描画（エラー表示） |
 | `/login` | POST | `session[email]`, `session[password]`, `session[remember_me]` | 不要 | 302 → 元ページ or プロフィール | `new` 再描画 / 未有効化は `/` へ |
 | `/microposts` | POST | `micropost[content]`, `micropost[picture]`（multipart） | ログイン必須 | 302 → `/`（`ModerationJob` 起動） | `home` 再描画（エラー表示） |
-| `/microposts/:id` | DELETE | — | 本人のみ | 元ページへ戻る（Turbo） | 本人以外は `/` へ |
-| `/relationships` | POST | `followed_id` | ログイン必須 | HTML: リダイレクト / Turbo Stream: 部分更新 | `/login` へ |
-| `/relationships/:id` | DELETE | — | ログイン必須 | HTML: リダイレクト / Turbo Stream: 部分更新 | `/login` へ |
+| `/microposts/:id` | DELETE | — | 本人のみ | 303 → 元ページへ戻る（Turbo） | 本人以外は `/` へ |
+| `/relationships` | POST | `followed_id` | ログイン必須 | HTML: 302 リダイレクト / Turbo Stream: 部分更新 | `/login` へ |
+| `/relationships/:id` | DELETE | — | ログイン必須 | HTML: 303 リダイレクト / Turbo Stream: 部分更新 | `/login` へ |
 | `/password_resets` | POST | `password_reset[email]` | 不要 | 302 → `/`（リセットメール送信） | `new` 再描画 |
-| `/password_resets/:id` | PATCH | `user[password]`, `user[password_confirmation]`、`email`（クエリ） | トークン検証 | 302 → プロフィール | `edit` 再描画 / 期限切れは要求画面へ |
+| `/password_resets/:id` | PATCH | `user[password]`, `user[password_confirmation]`、`email`（クエリ） | トークン検証 | 303 → プロフィール | `edit` 再描画 / 期限切れは要求画面へ |
 | `/account_activations/:id/edit` | GET | `email`（クエリ） | トークン検証 | 302 → プロフィール（自動ログイン） | `/` へ |
 | `/up` | GET | — | 不要 | 200（正常）/ 500（異常） | — |
+
+> **302 と 303 について**：データを変更する操作は PRG（Post/Redirect/Get）パターンに従い、処理後に別ページへリダイレクトする。`POST`（作成）系は `302 Found`、`DELETE`/`PATCH`（削除・更新）系は `303 See Other` を返す。303 は「リダイレクト先を必ず GET で取得せよ」と仕様で明確に定められており、Turbo（Hotwire）が `DELETE`/`PATCH` のリダイレクト先へ誤って同じメソッドで再アクセスするのを防ぐため、該当コントローラでは `redirect_to ..., status: :see_other` を指定している。
 
 ### 16.2 外部API（Rails ↔ テキストモデレーションAPI）
 

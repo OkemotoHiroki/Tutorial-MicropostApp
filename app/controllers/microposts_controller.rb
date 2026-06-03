@@ -16,7 +16,7 @@ class MicropostsController < ApplicationController
   def destroy
     @micropost.destroy
     flash[:success] = t("flash.microposts.destroy_success")
-    redirect_back(fallback_location: root_url)
+    redirect_back(fallback_location: root_url, status: :see_other)
   end
 
   private

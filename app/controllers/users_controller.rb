@@ -29,7 +29,7 @@ class UsersController < ApplicationController
   def update
     if @user.update(user_params)
       flash[:success] = t("flash.users.update_success")
-      redirect_to @user
+      redirect_to @user, status: :see_other
     else
       render :edit, status: :unprocessable_entity
     end
@@ -42,7 +42,7 @@ class UsersController < ApplicationController
   def destroy
     @user.destroy
     flash[:success] = t("flash.users.destroy_success")
-    redirect_to users_url
+    redirect_to users_url, status: :see_other
   end
 
   def following

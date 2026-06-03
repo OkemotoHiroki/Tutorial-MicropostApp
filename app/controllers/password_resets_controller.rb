@@ -27,7 +27,7 @@ class PasswordResetsController < ApplicationController
       log_in @user
       @user.update_column(:reset_digest, nil)
       flash[:success] = t("flash.password_resets.update_success")
-      redirect_to @user
+      redirect_to @user, status: :see_other
     else
       render :edit, status: :unprocessable_entity                                    # (2) への対応
     end
