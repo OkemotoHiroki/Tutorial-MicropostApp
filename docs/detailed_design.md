@@ -751,7 +751,6 @@ stateDiagram-v2
     pending --> processing : ModerationJob 開始<br/>update!(processing_state: :processing)
     processing --> done : スパム判定 + 攻撃性判定 完了<br/>update!(processing_state: :done)
     processing --> failed : 例外発生（rescue）<br/>update(processing_state: :failed)
-    failed --> processing : ジョブ再実行（リトライ）
     done --> [*]
     failed --> [*]
 
@@ -911,7 +910,7 @@ def perform(micropost_id)
   micropost.update!(processing_state: :done)
 rescue => e
   micropost&.update(processing_state: :failed)
-  raise e   # 再送出 → Active Job のリトライ機構に委ねる
+  raise e   # 再送出（ジョブ基盤に失敗として記録。retry_on 未設定のため自動リトライはしない）
 end
 ```
 
@@ -1023,6 +1022,8 @@ bin/rails server   # http://localhost:3000
 - Docker イメージ（`Dockerfile`）を Kamal（`config/deploy.yml`）でデプロイ。
 - kamal-proxy が TLS 終端（Let's Encrypt）、Thruster がアセット配信を担う。
 - 詳細なインフラ構成は「[基本設計書 1-1〜1-3](./basic_design.md)」を参照。
+
+> 注：本項は実デプロイ時の想定構成である。現時点では実環境へのデプロイを行っておらず、`Dockerfile`・`config/deploy.yml` は `rails new` 生成時の Kamal 既定値のままである（サーバIP・レジストリはプレースホルダ、TLS 終端を担う `proxy` の SSL/host・FastAPI 等の `accessories` は未設定）。上記の kamal-proxy による TLS 終端・レジストリ・FastAPI の配置は、実デプロイ時に確定して `config/deploy.yml` に反映する。
 
 ---
 
