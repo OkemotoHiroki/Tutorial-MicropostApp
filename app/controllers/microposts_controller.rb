@@ -5,7 +5,17 @@ class MicropostsController < ApplicationController
     @micropost = current_user.microposts.build(micropost_params)
     if @micropost.save
       flash[:success] = t("flash.microposts.create_success")
-      ModerationJob.perform_later(@micropost.id)
+      # Run moderation inline. On Render's free 512MB instance the in-Puma Solid Queue
+      # worker is unusable (the puma plugin forks a second Rails process and dies with
+      # "uninitialized constant SolidQueue"), so we execute synchronously. The job still
+      # broadcasts its status via Turbo Streams, so the UI updates in real time over the
+      # websocket. Errors are swallowed here (the job itself marks the post as failed) so a
+      # moderation outage never blocks posting.
+      begin
+        ModerationJob.perform_now(@micropost.id)
+      rescue => e
+        Rails.logger.error("[ModerationJob] inline execution failed: #{e.class}: #{e.message}")
+      end
 
       redirect_to root_url
     else

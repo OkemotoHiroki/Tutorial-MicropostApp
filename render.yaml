@@ -6,7 +6,11 @@
 #   pre-activated seed users always exist.
 # - Service spins down after 15 min of inactivity (cold start on next request).
 # - 512MB RAM: keep a single Puma worker (WEB_CONCURRENCY=1).
-# - Background jobs (ModerationJob) run inside Puma via SOLID_QUEUE_IN_PUMA=1 (no paid worker).
+# - Background jobs: ModerationJob runs SYNCHRONOUSLY (perform_now) inside the web request.
+#   The in-Puma Solid Queue worker (SOLID_QUEUE_IN_PUMA) is NOT used: on this free instance
+#   the puma plugin forks a second Rails process that dies with "uninitialized constant
+#   SolidQueue", and 512MB can't host a second process anyway. Turbo broadcasts still update
+#   the UI in real time. If you upgrade the instance, you can re-introduce async processing.
 services:
   - type: web
     name: micropost-rails
@@ -20,10 +24,6 @@ services:
     envVars:
       - key: RAILS_ENV
         value: production
-      # Run the Solid Queue supervisor inside Puma so ModerationJob is processed
-      # without a separate (paid) background worker service.
-      - key: SOLID_QUEUE_IN_PUMA
-        value: "1"
       - key: RAILS_MAX_THREADS
         value: "3"
       - key: WEB_CONCURRENCY
