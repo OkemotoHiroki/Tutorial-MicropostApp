@@ -1,0 +1,42 @@
+# Render Blueprint for the Rails micropost app (training-demo deployment, free plan).
+#
+# Notes / constraints (free plan):
+# - Ephemeral filesystem: the SQLite DBs and uploaded files reset on every restart/redeploy.
+#   `db:prepare` in startCommand re-creates and re-seeds the DB on each cold start, so the
+#   pre-activated seed users always exist.
+# - Service spins down after 15 min of inactivity (cold start on next request).
+# - 512MB RAM: keep a single Puma worker (WEB_CONCURRENCY=1).
+# - Background jobs (ModerationJob) run inside Puma via SOLID_QUEUE_IN_PUMA=1 (no paid worker).
+services:
+  - type: web
+    name: micropost-rails
+    runtime: ruby
+    plan: free
+    region: singapore # closest free region to Japan
+    branch: main
+    buildCommand: "bundle install && bundle exec rails assets:precompile"
+    startCommand: "bundle exec rails db:prepare && bundle exec puma -C config/puma.rb"
+    healthCheckPath: /up
+    envVars:
+      - key: RAILS_ENV
+        value: production
+      # Run the Solid Queue supervisor inside Puma so ModerationJob is processed
+      # without a separate (paid) background worker service.
+      - key: SOLID_QUEUE_IN_PUMA
+        value: "1"
+      - key: RAILS_MAX_THREADS
+        value: "3"
+      - key: WEB_CONCURRENCY
+        value: "1"
+      - key: RAILS_LOG_LEVEL
+        value: info
+      # --- Secrets / cross-service values: set manually in the dashboard ---
+      # Value of config/master.key (never commit it).
+      - key: RAILS_MASTER_KEY
+        sync: false
+      # Public URL of the FastAPI moderation service, e.g. https://micropost-fastapi.onrender.com
+      - key: MODERATION_API_BASE_URL
+        sync: false
+      # This service's own host, e.g. micropost-rails.onrender.com (used for mailer link host).
+      - key: APP_HOST
+        sync: false

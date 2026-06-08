@@ -32,7 +32,9 @@ users = User.order(:created_at).limit(6)
 50.times do
   content = Faker::Lorem.sentence(word_count: 5)
   users.each do |user|
-    user.microposts.create!(content: content)
+    # Seeded posts skip moderation (no FastAPI call), so mark them done to avoid a
+    # permanent "processing" badge in the UI.
+    user.microposts.create!(content: content, processing_state: :done)
   end
 end
 
