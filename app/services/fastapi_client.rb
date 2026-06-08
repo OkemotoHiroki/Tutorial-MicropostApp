@@ -9,6 +9,16 @@ class FastapiClient
     http.use_ssl = (uri.scheme == "https")
     request = Net::HTTP::Post.new(uri, "Content-Type" => "application/json", "Accept" => "application/json")
     request.body = payload.to_json
-    http.request(request)
+
+    response = http.request(request)
+    if response.is_a?(Net::HTTPSuccess)
+      Rails.logger.info("[FastapiClient] POST #{uri} -> #{response.code}")
+    else
+      Rails.logger.error("[FastapiClient] POST #{uri} -> #{response.code} #{response.message} body=#{response.body}")
+    end
+    response
+  rescue => e
+    Rails.logger.error("[FastapiClient] POST #{uri} failed: #{e.class}: #{e.message}")
+    raise
   end
 end
