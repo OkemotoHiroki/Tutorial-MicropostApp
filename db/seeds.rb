@@ -29,13 +29,21 @@ end
 
 users = User.order(:created_at).limit(6)
 
-50.times do
-  content = Faker::Lorem.sentence(word_count: 5)
-  users.each do |user|
-    # Seeded posts skip moderation (no FastAPI call), so mark them done to avoid a
-    # permanent "processing" badge in the UI.
-    user.microposts.create!(content: content, processing_state: :done)
-  end
+# 初期フィード用の固定文言。ランダム生成（Faker）だと不適切な語が混じることがあるため、
+# クリーンな固定文にしている。モデレーション機能のデモは本番でライブ投稿して見せる。
+# seed投稿はモデレーションを通さないので processing_state は done 固定。
+demo_microposts = [
+  "今日は天気が良いので散歩に行きました。",
+  "新しく開いたカフェでコーヒーを飲んでいます。",
+  "週末は友人と映画を観に行く予定です。",
+  "最近プログラミングの勉強を始めました。",
+  "おすすめの本があればぜひ教えてください。",
+  "近所で美味しいラーメン屋さんを見つけました。"
+]
+
+demo_microposts.each_with_index do |content, i|
+  user = users[i % users.size]
+  user.microposts.create!(content: content, processing_state: :done)
 end
 
 # リレーションシップ
